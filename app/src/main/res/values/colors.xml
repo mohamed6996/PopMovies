@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#F44336</color>
+    <color name="colorPrimaryDark">#d32f2f</color>
+    <color name="colorAccent">#ffffff</color>
+
+    <!--progress_bar_color -->
+    <color name="progress_bar_color">#35ffffff</color>
+
+    <!--tab_icon_color -->
+    <color name="tab_selected_color">#ffffff</color>
+    <color name="tab_unselected_color">#91bdbdbd</color>
+
+</resources>
