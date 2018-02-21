@@ -1,4 +1,4 @@
-package com.movies.popular.popmovies;
+package com.movies.popular.popmovies.model;
 
 import java.util.List;
 

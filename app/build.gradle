@@ -37,7 +37,7 @@ dependencies {
     implementation 'com.android.support:cardview-v7:26.1.0'
     // picasso
     implementation 'com.squareup.picasso:picasso:2.5.2'
-    // alternatively, just MainViewModel
+    // alternatively, just PopularViewModel
     implementation 'android.arch.lifecycle:viewmodel:1.1.0'
     // alternatively, just LiveData
     implementation 'android.arch.lifecycle:livedata:1.1.0'

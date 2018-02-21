@@ -9,15 +9,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.movies.popular.popmovies.MainViewModel;
-import com.movies.popular.popmovies.MovieList;
-import com.movies.popular.popmovies.MovieModel;
+import com.movies.popular.popmovies.popular.PopularViewModel;
+import com.movies.popular.popmovies.model.MovieModel;
 import com.movies.popular.popmovies.R;
 import com.movies.popular.popmovies.adapters.RecyclerViewAdapter;
 
@@ -27,7 +25,7 @@ import com.movies.popular.popmovies.adapters.RecyclerViewAdapter;
 public class PopularFragment extends Fragment {
     RecyclerView recyclerView;
     RecyclerViewAdapter adapter;
-    MainViewModel mainViewModel;
+    PopularViewModel popularViewModel;
 
     public PopularFragment() {
         // Required empty public constructor
@@ -47,10 +45,10 @@ public class PopularFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         initRecyclerView();
-        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        popularViewModel = ViewModelProviders.of(this).get(PopularViewModel.class);
 
         try {
-            mainViewModel.getLiveData().observe(this, new Observer<PagedList<MovieModel>>() {
+            popularViewModel.getLiveData().observe(this, new Observer<PagedList<MovieModel>>() {
                 @Override
                 public void onChanged(@Nullable PagedList<MovieModel> movieModels) {
                     if (movieModels != null)

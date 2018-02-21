@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.recyclerview.extensions.DiffCallback;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.movies.popular.popmovies.Constants;
-import com.movies.popular.popmovies.MovieList;
-import com.movies.popular.popmovies.MovieModel;
+import com.movies.popular.popmovies.model.MovieModel;
 import com.movies.popular.popmovies.R;
 import com.squareup.picasso.Picasso;
 
