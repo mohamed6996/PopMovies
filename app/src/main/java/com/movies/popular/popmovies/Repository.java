@@ -1,6 +1,10 @@
 package com.movies.popular.popmovies;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.paging.LivePagedListBuilder;
+import android.arch.paging.PagedList;
+import android.support.annotation.MainThread;
 import android.util.Log;
 
 import com.movies.popular.popmovies.adapters.RecyclerViewAdapter;
@@ -13,34 +17,37 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import android.arch.paging.PagedList.Config.Builder;
+
 /**
  * Created by lenovo on 2/19/2018.
  */
 
 public class Repository {
 
-    ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-    Call<MovieList> call = apiInterface.getPopularMovies(Constants.API_KEY, 1);
-    MutableLiveData<MovieList> ret_list = new MutableLiveData<>();
+    MovieDataSourceFactory movieDataSourceFactory = new MovieDataSourceFactory();
+    LiveData<PagedList<MovieModel>> ret_list;
 
+    @MainThread
+    public LiveData<PagedList<MovieModel>> getPopularMovies() {
+        PagedList.Config config = new Builder()
+                .setEnablePlaceholders(false)
+                .setInitialLoadSizeHint(20)
+                .setPageSize(20)
+                .build();
 
-    public MutableLiveData<MovieList> getPopularMovies() {
+        try {
+            ret_list = new LivePagedListBuilder(movieDataSourceFactory, config)
+                    .setInitialLoadKey(1)
+                    .setBackgroundThreadExecutor(AppExecutor.networkIO())
+                    .build();
+        } catch (Exception e) {
+            Log.i("retrofit", e.getMessage());
 
-        call.enqueue(new Callback<MovieList>() {
-            @Override
-            public void onResponse(Call<MovieList> call, Response<MovieList> response) {
-                if (response.isSuccessful()) {
-                    ret_list.setValue(response.body());
-                }
-            }
+        }
 
-            @Override
-            public void onFailure(Call<MovieList> call, Throwable t) {
-                Log.i("what", t.getMessage());
-            }
-        });
 
         return ret_list;
-    }
 
+    }
 }

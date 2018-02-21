@@ -23,7 +23,4 @@ public interface ApiInterface {
     );
 
 
-//    @GET("movie/popular?api_key=1a618051961d7a730414257885f0d9d3&language=en-US&page=1")
-//    Call<MovieList> getPopularMovies()
-
 }

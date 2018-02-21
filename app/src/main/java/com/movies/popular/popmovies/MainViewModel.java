@@ -2,6 +2,7 @@ package com.movies.popular.popmovies;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
+import android.arch.paging.PagedList;
 
 /**
  * Created by lenovo on 2/19/2018.
@@ -10,11 +11,9 @@ import android.arch.lifecycle.ViewModel;
 public class MainViewModel extends ViewModel {
 
 
-    public LiveData<MovieList> getLiveData() {
-
-        Repository repository = new Repository();
-        return repository.getPopularMovies();
-
+    LiveData<PagedList<MovieModel>> listLiveData;
+    public LiveData<PagedList<MovieModel>> getLiveData() {
+        listLiveData = new Repository().getPopularMovies();
+        return listLiveData ;
     }
-
 }
