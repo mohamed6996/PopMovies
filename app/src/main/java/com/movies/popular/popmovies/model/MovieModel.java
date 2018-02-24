@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MovieModel {
 
- //   private List<MovieModel> results;
+    //   private List<MovieModel> results;
     private String poster_path;
     private String overview;
     private String release_date;
@@ -16,11 +16,49 @@ public class MovieModel {
     private String original_language;
     private String title;
     private String backdrop_path;
-    private long id;
+    private String id;
     private int vote_count;
     private float vote_average;
-    private double popularity;
+    private float popularity;
 
+    private String tagline;
+    private String adult;
+    private int runtime;
+
+
+    public String getTagline() {
+        return tagline;
+    }
+
+    public void setTagline(String tagline) {
+        this.tagline = tagline;
+    }
+
+    public String getAdult() {
+        return adult;
+    }
+
+    public void setAdult(String adult) {
+        this.adult = adult;
+    }
+
+    public int getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    private String key;
 //    public List<MovieModel> getResults() {
 //        return results;
 //    }
@@ -85,11 +123,11 @@ public class MovieModel {
         this.backdrop_path = backdrop_path;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -109,11 +147,11 @@ public class MovieModel {
         this.vote_average = vote_average;
     }
 
-    public double getPopularity() {
+    public float getPopularity() {
         return popularity;
     }
 
-    public void setPopularity(double popularity) {
+    public void setPopularity(float popularity) {
         this.popularity = popularity;
     }
 }

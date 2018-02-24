@@ -12,6 +12,13 @@ public class Constants {
 
     public static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w185";
 
+    public static final String BACKDROP_BASE_URL = "https://image.tmdb.org/t/p/w500";
+
+    public static final String THUMBNAIL_BASE_URL = "http://img.youtube.com/vi/";
+
+
+
+
 
 
 }

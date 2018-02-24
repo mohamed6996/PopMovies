@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.movies.popular.popmovies.Constants;
+import com.movies.popular.popmovies.ListItemClickListener;
 import com.movies.popular.popmovies.model.MovieModel;
 import com.movies.popular.popmovies.R;
 import com.squareup.picasso.Picasso;
@@ -24,10 +25,12 @@ import com.squareup.picasso.Picasso;
 public class RecyclerViewAdapter extends PagedListAdapter<MovieModel, RecyclerView.ViewHolder> {
 
     Context context;
+    ListItemClickListener listener;
 
-    public RecyclerViewAdapter(Context context) {
+    public RecyclerViewAdapter(Context context, ListItemClickListener listener) {
         super(RecyclerViewAdapter.DIFF_CALLBACK);
         this.context = context;
+        this.listener = listener;
     }
 
     @Override
@@ -90,7 +93,7 @@ public class RecyclerViewAdapter extends PagedListAdapter<MovieModel, RecyclerVi
         }
     };
 
-    class ViewHolderOne extends RecyclerView.ViewHolder {
+    class ViewHolderOne extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textview;
         ImageView imageView;
 
@@ -98,6 +101,9 @@ public class RecyclerViewAdapter extends PagedListAdapter<MovieModel, RecyclerVi
             super(itemView);
             textview = itemView.findViewById(R.id.movie_title);
             imageView = itemView.findViewById(R.id.movie_image_view);
+
+            itemView.setOnClickListener(this);
+
         }
 
         void bind(int position) {
@@ -106,9 +112,14 @@ public class RecyclerViewAdapter extends PagedListAdapter<MovieModel, RecyclerVi
             String imageUrl = Constants.IMAGE_BASE_URL + model.getPoster_path();
             Picasso.with(context).load(imageUrl).into(imageView);
         }
+
+        @Override
+        public void onClick(View view) {
+            listener.onListItemClick(getAdapterPosition());
+        }
     }
 
-    class ViewHolderTwo extends RecyclerView.ViewHolder {
+    class ViewHolderTwo extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView imageView;
         TextView movieTitle, movieDesc;
 
@@ -118,6 +129,7 @@ public class RecyclerViewAdapter extends PagedListAdapter<MovieModel, RecyclerVi
             movieTitle = itemView.findViewById(R.id.movie_title_text_view_2);
             movieDesc = itemView.findViewById(R.id.movie_desc_text_view_2);
 
+            itemView.setOnClickListener(this);
         }
 
         void bind(int position) {
@@ -127,6 +139,11 @@ public class RecyclerViewAdapter extends PagedListAdapter<MovieModel, RecyclerVi
 
             movieTitle.setText(model.getTitle());
             movieDesc.setText(model.getOverview());
+        }
+
+        @Override
+        public void onClick(View view) {
+            listener.onListItemClick(getAdapterPosition());
         }
     }
 

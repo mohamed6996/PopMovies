@@ -4,6 +4,7 @@ package com.movies.popular.popmovies.fragments;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,18 +15,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.movies.popular.popmovies.DeatailActivity;
+import com.movies.popular.popmovies.DetailFragment;
+import com.movies.popular.popmovies.ListItemClickListener;
 import com.movies.popular.popmovies.popular.PopularViewModel;
 import com.movies.popular.popmovies.model.MovieModel;
 import com.movies.popular.popmovies.R;
 import com.movies.popular.popmovies.adapters.RecyclerViewAdapter;
 
+import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PopularFragment extends Fragment {
+public class PopularFragment extends Fragment implements ListItemClickListener {
     RecyclerView recyclerView;
     RecyclerViewAdapter adapter;
     PopularViewModel popularViewModel;
+
+    List<MovieModel> moviesList;
 
     public PopularFragment() {
         // Required empty public constructor
@@ -51,8 +60,10 @@ public class PopularFragment extends Fragment {
             popularViewModel.getLiveData().observe(this, new Observer<PagedList<MovieModel>>() {
                 @Override
                 public void onChanged(@Nullable PagedList<MovieModel> movieModels) {
-                    if (movieModels != null)
+                    if (movieModels != null) {
                         adapter.setList(movieModels);
+                        moviesList = movieModels;
+                    }
                 }
             });
         } catch (Exception e) {
@@ -64,7 +75,7 @@ public class PopularFragment extends Fragment {
     }
 
     private void initRecyclerView() {
-        adapter = new RecyclerViewAdapter(getContext());
+        adapter = new RecyclerViewAdapter(getContext(), this);
 
         GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -80,11 +91,33 @@ public class PopularFragment extends Fragment {
                 }
 
 
-
             }
         });
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
     }
 
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+        MovieModel model = moviesList.get(clickedItemIndex);
+        Toast.makeText(getContext(), "index is " + clickedItemIndex + model.getTitle(), Toast.LENGTH_SHORT).show();
+        Bundle bundle = new Bundle();
+        bundle.putString("movie_title", model.getTitle());
+        bundle.putString("backdrop_path", model.getBackdrop_path());
+        bundle.putString("overview", model.getOverview());
+        bundle.putString("release_date", model.getRelease_date());
+        bundle.putInt("movie_title", model.getVote_count());
+        bundle.putFloat("vote_average", model.getVote_average());
+        bundle.putDouble("popularity", model.getPopularity());
+
+        Gson gson = new Gson();
+        String movieJson = gson.toJson(model);
+
+        Intent intent = new Intent(getActivity(), DeatailActivity.class);
+        intent.putExtra("json", movieJson);
+        //intent.putExtra("b", bundle);
+        startActivity(intent);
+
+
+    }
 }

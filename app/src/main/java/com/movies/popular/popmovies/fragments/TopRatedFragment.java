@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.movies.popular.popmovies.ListItemClickListener;
 import com.movies.popular.popmovies.model.MovieModel;
 import com.movies.popular.popmovies.R;
 import com.movies.popular.popmovies.topRated.TopRatedViewModel;
@@ -22,7 +23,7 @@ import com.movies.popular.popmovies.adapters.RecyclerViewAdapter;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TopRatedFragment extends Fragment {
+public class TopRatedFragment extends Fragment implements ListItemClickListener {
 
     RecyclerView recyclerView;
     RecyclerViewAdapter adapter;
@@ -64,7 +65,7 @@ public class TopRatedFragment extends Fragment {
     }
 
     private void initRecyclerView() {
-        adapter = new RecyclerViewAdapter(getContext());
+        adapter = new RecyclerViewAdapter(getContext(), this);
 
         GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -86,4 +87,9 @@ public class TopRatedFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+        Toast.makeText(getContext(), "index is " + clickedItemIndex, Toast.LENGTH_SHORT).show();
+
+    }
 }
