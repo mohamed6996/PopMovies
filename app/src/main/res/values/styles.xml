@@ -8,4 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <!-- Base application theme. -->
+    <style name="CollapsedToolbar" parent="@android:style/TextAppearance.Medium">
+        <!-- Customize your theme here. -->
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">24sp</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
 </resources>

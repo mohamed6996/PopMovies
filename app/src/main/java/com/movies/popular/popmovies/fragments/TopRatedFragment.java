@@ -4,6 +4,7 @@ package com.movies.popular.popmovies.fragments;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,11 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.movies.popular.popmovies.DeatailActivity;
 import com.movies.popular.popmovies.ListItemClickListener;
 import com.movies.popular.popmovies.model.MovieModel;
 import com.movies.popular.popmovies.R;
 import com.movies.popular.popmovies.topRated.TopRatedViewModel;
 import com.movies.popular.popmovies.adapters.RecyclerViewAdapter;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +32,7 @@ public class TopRatedFragment extends Fragment implements ListItemClickListener 
     RecyclerView recyclerView;
     RecyclerViewAdapter adapter;
     TopRatedViewModel mainViewModel;
+    List<MovieModel> moviesList;
 
     public TopRatedFragment() {
         // Required empty public constructor
@@ -52,8 +57,10 @@ public class TopRatedFragment extends Fragment implements ListItemClickListener 
             mainViewModel.getLiveData().observe(this, new Observer<PagedList<MovieModel>>() {
                 @Override
                 public void onChanged(@Nullable PagedList<MovieModel> movieModels) {
-                    if (movieModels != null)
+                    if (movieModels != null) {
                         adapter.setList(movieModels);
+                        moviesList = movieModels;
+                    }
                 }
             });
         } catch (Exception e) {
@@ -89,7 +96,10 @@ public class TopRatedFragment extends Fragment implements ListItemClickListener 
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-        Toast.makeText(getContext(), "index is " + clickedItemIndex, Toast.LENGTH_SHORT).show();
+        MovieModel model = moviesList.get(clickedItemIndex);
+        Intent intent = new Intent(getActivity(), DeatailActivity.class);
+        intent.putExtra("movie_id", model.getId());
 
+        startActivity(intent);
     }
 }

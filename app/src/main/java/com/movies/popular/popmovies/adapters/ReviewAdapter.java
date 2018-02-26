@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.movies.popular.popmovies.ListItemClickListener;
 import com.movies.popular.popmovies.R;
 import com.movies.popular.popmovies.model.MovieModel;
 import com.movies.popular.popmovies.model.TrailerList;
@@ -20,6 +21,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
 
     public ReviewAdapter(TrailerList reviewList) {
         this.reviewList = reviewList;
+
     }
 
     @Override
@@ -38,7 +40,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         return reviewList.getResults().size();
     }
 
-    class ReviewViewHolder extends RecyclerView.ViewHolder {
+    class ReviewViewHolder extends RecyclerView.ViewHolder  {
         TextView textView;
 
         public ReviewViewHolder(View itemView) {
@@ -50,5 +52,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
             TrailerModel model = reviewList.getResults().get(position);
             textView.setText(model.getContent());
         }
+
+
     }
 }

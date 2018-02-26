@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.movies.popular.popmovies.Constants;
+import com.movies.popular.popmovies.ListItemClickListener;
 import com.movies.popular.popmovies.R;
 import com.movies.popular.popmovies.model.TrailerList;
 import com.movies.popular.popmovies.model.TrailerModel;
@@ -26,10 +27,12 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
 
     TrailerList trailerList;
     Context context;
+    final ListItemClickListener listener;
 
-    public TrailerAdapter(TrailerList trailerList, Context context) {
+    public TrailerAdapter(TrailerList trailerList, Context context, ListItemClickListener listener) {
         this.trailerList = trailerList;
         this.context = context;
+        this.listener = listener;
     }
 
     @Override
@@ -48,7 +51,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
         return trailerList.getResults().size();
     }
 
-    class TrailerViewHolder extends RecyclerView.ViewHolder {
+    class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView thumbnail;
         TextView movieName, trailerType, trailerQuality;
 
@@ -59,6 +62,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
             trailerType = itemView.findViewById(R.id.trailer_type);
             trailerQuality = itemView.findViewById(R.id.trailer_quality);
 
+            itemView.setOnClickListener(this);
         }
 
         void bind(int position) {
@@ -67,6 +71,11 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
             trailerType.append(model.getSite());
             trailerQuality.append(String.valueOf(model.getSize()) + "p");
             Picasso.with(context).load(Constants.THUMBNAIL_BASE_URL + model.getKey() + "/0.jpg").into(thumbnail);
+        }
+
+        @Override
+        public void onClick(View view) {
+            listener.onListItemClick(getAdapterPosition());
         }
     }
 }
