@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,10 @@ import android.widget.Toast;
 
 import com.movies.popular.popmovies.DeatailActivity;
 import com.movies.popular.popmovies.ListItemClickListener;
+import com.movies.popular.popmovies.Searchable;
 import com.movies.popular.popmovies.model.MovieModel;
 import com.movies.popular.popmovies.R;
+import com.movies.popular.popmovies.search.SearchViewModel;
 import com.movies.popular.popmovies.topRated.TopRatedViewModel;
 import com.movies.popular.popmovies.adapters.RecyclerViewAdapter;
 
@@ -27,7 +30,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TopRatedFragment extends Fragment implements ListItemClickListener {
+public class TopRatedFragment extends Fragment implements ListItemClickListener, Searchable {
 
     RecyclerView recyclerView;
     RecyclerViewAdapter adapter;
@@ -101,5 +104,27 @@ public class TopRatedFragment extends Fragment implements ListItemClickListener 
         intent.putExtra("movie_id", model.getId());
 
         startActivity(intent);
+    }
+
+    @Override
+    public void search(String query) {
+        Toast.makeText(getContext(), "called from top fragment  " + query, Toast.LENGTH_SHORT).show();
+        SearchViewModel searchViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
+        searchViewModel.setSearchQuery(query);
+
+        try {
+            searchViewModel.getLiveData().observe(this, new Observer<PagedList<MovieModel>>() {
+                @Override
+                public void onChanged(@Nullable PagedList<MovieModel> movieModels) {
+                    if (movieModels != null) {
+                        adapter.setList(movieModels);
+                        moviesList = movieModels;
+                    }
+                }
+            });
+        } catch (Exception e) {
+            Log.e("error", e.getMessage());
+        }
+
     }
 }

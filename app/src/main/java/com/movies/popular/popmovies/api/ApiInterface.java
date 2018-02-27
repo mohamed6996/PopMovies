@@ -53,5 +53,11 @@ public interface ApiInterface {
     );
 
 
+    @GET("search/movie")
+    Call<MovieList> searchMovie(
+            @Query("api_key") String api_key,
+            @Query("query") String query,
+            @Query("page") int page
+    );
 
 }
