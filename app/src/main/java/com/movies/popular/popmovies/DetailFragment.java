@@ -1,9 +1,17 @@
 package com.movies.popular.popmovies;
 
 
+import android.app.LoaderManager;
+import android.arch.lifecycle.Observer;
+import android.arch.paging.PagedList;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 
+import android.content.Loader;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
@@ -14,18 +22,21 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.florent37.picassopalette.PicassoPalette;
 import com.movies.popular.popmovies.adapters.ReviewAdapter;
@@ -34,6 +45,8 @@ import com.movies.popular.popmovies.api.ApiClient;
 import com.movies.popular.popmovies.api.ApiInterface;
 import com.movies.popular.popmovies.model.MovieModel;
 import com.movies.popular.popmovies.model.TrailerList;
+import com.movies.popular.popmovies.room.MovieEntity;
+import com.movies.popular.popmovies.room.MovieRepository;
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
@@ -44,7 +57,7 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DetailFragment extends Fragment implements ListItemClickListener {
+public class DetailFragment extends Fragment implements ListItemClickListener, LoaderManager.LoaderCallbacks<String> {
     CollapsingToolbarLayout collapsingToolbar;
     AppBarLayout appBarLayout;
     Toolbar toolbar;
@@ -65,7 +78,18 @@ public class DetailFragment extends Fragment implements ListItemClickListener {
 
     String movie_id;
 
+    MovieModel model;
+
     ListItemClickListener listener = (ListItemClickListener) this;
+
+    MovieRepository movieRepository;
+
+    LayerDrawable layerDrawable;
+    GradientDrawable gradientDrawable;
+    Drawable fabDrawable;
+    Drawable newDrawable;
+
+    boolean isFavorite = false;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -119,13 +143,29 @@ public class DetailFragment extends Fragment implements ListItemClickListener {
         behavior.setHideable(true);
         behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
+        movieRepository = new MovieRepository(getActivity().getApplication());
+
+        layerDrawable = (LayerDrawable) ContextCompat.getDrawable(getContext(), R.drawable.ic_circle);
+        gradientDrawable = (GradientDrawable) layerDrawable.findDrawableByLayerId(R.id.circle_shape);
+        fabDrawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_fav);
+        newDrawable = fabDrawable.getConstantState().newDrawable();
+
+
+        try {
+            getActivity().getLoaderManager().initLoader(1, null, this).forceLoad();
+
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "error is " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.i("favorite", "id is :" + e.getMessage());
+
+        }
 
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
         apiInterface.getMovieDetails(movie_id, Constants.API_KEY).enqueue(new Callback<MovieModel>() {
             @Override
             public void onResponse(Call<MovieModel> call, Response<MovieModel> response) {
-                MovieModel model = response.body();
+                model = response.body();
                 bind(model);
             }
 
@@ -197,6 +237,36 @@ public class DetailFragment extends Fragment implements ListItemClickListener {
         });
 
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkFavorite();
+            }
+        });
+
+
+    }
+
+    private void checkFavorite() {
+        try {
+            if (isFavorite) { // if its already fav, delete it, otherwise add it
+                movieRepository.removeFavorite(movie_id);
+                newDrawable.mutate().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
+                isFavorite = false;
+                Snackbar.make(fab, "Removed from favorites", Snackbar.LENGTH_SHORT).show();
+            } else {
+                MovieEntity movieEntity = new MovieEntity(model.getPoster_path(), model.getOverview(), model.getRelease_date(), model.getOriginal_title(),
+                        model.getOriginal_language(), model.getTitle(), model.getBackdrop_path(), model.getId(), model.getVote_count(), model.getVote_average(),
+                        model.getPopularity(), model.getTagline(), model.getAdult(), model.getRuntime());
+
+                movieRepository.insert(movieEntity);
+                newDrawable.mutate().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+                isFavorite = true;
+                Snackbar.make(fab, "Added to favorites", Snackbar.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Snackbar.make(fab, "Somthing went wrong", Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     private void bind(final MovieModel model) {
@@ -241,41 +311,27 @@ public class DetailFragment extends Fragment implements ListItemClickListener {
 
         Picasso.with(getContext()).load(image_url)
                 .into(backDrop, PicassoPalette.with(image_url, backDrop)
-                                .use(PicassoPalette.Profile.VIBRANT)
-                                //.intoBackground(getReview_btn,PicassoPalette.Swatch.RGB)
-                                .intoCallBack(
-                                        new PicassoPalette.CallBack() {
-                                            @Override
-                                            public void onPaletteLoaded(Palette palette) {
-                                                //   getTrailers_btn.setBackgroundColor(palette.getDominantSwatch().getRgb());
-
-//                                                int color;
-//                                                if (palette.getVibrantSwatch() != null) {
-//                                                    color = palette.getLightVibrantSwatch().getRgb();
-//                                                    getTrailers_btn.setBackgroundColor(palette.getVibrantSwatch().getRgb());
-//                                                }
-
-
-                                                int color;
-                                                if (palette.getDarkVibrantSwatch() != null) {
-                                                    color = palette.getDarkVibrantSwatch().getRgb();
-                                                    LayerDrawable layerDrawable = (LayerDrawable) ContextCompat.getDrawable(getContext(), R.drawable.ic_circle);
-                                                    GradientDrawable gradientDrawable = (GradientDrawable) layerDrawable.findDrawableByLayerId(R.id.circle_shape);
-                                                    gradientDrawable.setColor(color);
-                                                    vote_avg_tv.setBackground(layerDrawable);
-                                                    pop_tv.setBackground(layerDrawable);
-                                                    lang_tv.setBackground(layerDrawable);
-                                                }
-
-
-//                                                status bar and drawable dark vibrant and toolbar light vibrant
-//                                                collapsingToolbar.setBackgroundColor(palette.getLightVibrantColor(00000)); // 00000 just for testing!
-//                                                collapsingToolbar.setContentScrimColor(palette.getLightVibrantColor(00000));
-//                                                // status bar
-//                                                collapsingToolbar.setStatusBarScrimColor(palette.getLightVibrantColor(00000));
-
+                        .use(PicassoPalette.Profile.VIBRANT)
+                        .intoCallBack(
+                                new PicassoPalette.CallBack() {
+                                    @Override
+                                    public void onPaletteLoaded(Palette palette) {
+                                        int color;
+                                        try {
+                                            if (palette.getDarkVibrantSwatch() != null) {
+                                                color = palette.getDarkVibrantSwatch().getRgb();
+                                                gradientDrawable.setColor(color);
+                                                vote_avg_tv.setBackground(layerDrawable);
+                                                pop_tv.setBackground(layerDrawable);
+                                                lang_tv.setBackground(layerDrawable);
                                             }
-                                        })
+                                        } catch (Exception e) {
+                                            Toast.makeText(getContext(), "drawable error" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+
+
+                                    }
+                                })
 
                 );
 
@@ -295,4 +351,28 @@ public class DetailFragment extends Fragment implements ListItemClickListener {
             startActivity(intent);
         }
     }
+
+    @Override
+    public Loader<String> onCreateLoader(int i, Bundle bundle) {
+        return movieRepository.getFavoriteMovie(getContext(), movie_id);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<String> loader, String s) {
+       if (movie_id.equals(s)) {
+            Toast.makeText(getContext(), "true", Toast.LENGTH_SHORT).show();
+            newDrawable.mutate().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+            isFavorite = true;
+        } else {
+            Toast.makeText(getContext(), "false", Toast.LENGTH_SHORT).show();
+            newDrawable.mutate().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
+            isFavorite = false;
+        }
+        fab.setImageDrawable(newDrawable);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<String> loader) {
+    }
+
 }

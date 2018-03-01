@@ -9,11 +9,13 @@ import android.os.Bundle;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
+import com.crashlytics.android.Crashlytics;
 import com.movies.popular.popmovies.adapters.ViewPagerAdapter;
 import com.movies.popular.popmovies.fragments.FavouritsFragment;
 import com.movies.popular.popmovies.fragments.PopularFragment;
 import com.movies.popular.popmovies.fragments.TopRatedFragment;
 
+import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
 
         init();

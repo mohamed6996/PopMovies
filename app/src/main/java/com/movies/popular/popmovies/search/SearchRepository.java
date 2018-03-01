@@ -5,8 +5,7 @@ import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 import android.support.annotation.MainThread;
 import android.util.Log;
-
-import com.movies.popular.popmovies.AppExecutor;
+import com.movies.popular.popmovies.AppsExecutor;
 import com.movies.popular.popmovies.model.MovieModel;
 import com.movies.popular.popmovies.popular.PopularDataSourceFactory;
 
@@ -38,7 +37,7 @@ public class SearchRepository {
         try {
             ret_list = new LivePagedListBuilder(searchDataSourceFactory, config)
                     .setInitialLoadKey(1)
-                    .setBackgroundThreadExecutor(AppExecutor.networkIO())
+                    .setBackgroundThreadExecutor(AppsExecutor.networkIO())
                     .build();
 
             Log.i("retrofit", "ret_list" + ret_list.getValue().size());

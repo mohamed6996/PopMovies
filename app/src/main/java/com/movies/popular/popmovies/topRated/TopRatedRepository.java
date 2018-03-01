@@ -5,8 +5,7 @@ import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 import android.support.annotation.MainThread;
 import android.util.Log;
-
-import com.movies.popular.popmovies.AppExecutor;
+import com.movies.popular.popmovies.AppsExecutor;
 import com.movies.popular.popmovies.model.MovieModel;
 
 /**
@@ -32,7 +31,7 @@ public class TopRatedRepository {
         try {
             ret_list = new LivePagedListBuilder(movieDataSourceFactory, config)
                     .setInitialLoadKey(1)
-                    .setBackgroundThreadExecutor(AppExecutor.networkIO())
+                    .setBackgroundThreadExecutor(AppsExecutor.networkIO())
                     .build();
         } catch (Exception e) {
             Log.i("retrofit", e.getMessage());

@@ -16,9 +16,7 @@ public class Constants {
 
     public static final String THUMBNAIL_BASE_URL = "http://img.youtube.com/vi/";
 
-
-
-
+    public static final String TABLE_NAME = "favorites_table";
 
 
 }
