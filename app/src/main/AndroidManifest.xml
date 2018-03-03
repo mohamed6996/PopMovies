@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.movies.popular.popmovies">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -24,10 +25,10 @@
             android:name="io.fabric.ApiKey"
             android:value="b4fb3d8c1491fbd175eca4dab9cceaf44ff4b105" />
 
-        <!--<provider-->
-            <!--android:name=".FavoriteProvider"-->
-            <!--android:authorities=" com.movies.popular.popmovies"-->
-            <!--android:exported="false" />-->
+        <provider
+            android:name=".room.FavoriteProvider"
+            android:authorities="com.movies.popular.popmovies.room"
+            android:exported="false" />
     </application>
 
 </manifest>

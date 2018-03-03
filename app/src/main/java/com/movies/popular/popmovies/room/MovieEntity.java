@@ -2,6 +2,7 @@ package com.movies.popular.popmovies.room;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.content.ContentValues;
 import android.support.annotation.NonNull;
 
 import com.movies.popular.popmovies.Constants;
@@ -47,6 +48,7 @@ public class MovieEntity {
         this.adult = adult;
         this.runtime = runtime;
     }
+
 
     public String getPoster_path() {
         return poster_path;

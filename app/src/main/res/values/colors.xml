@@ -11,4 +11,7 @@
     <color name="tab_selected_color">#ffffff</color>
     <color name="tab_unselected_color">#91bdbdbd</color>
 
+    <!--progress_bar_color -->
+    <color name="trailerTV_background_color">#c8000000</color>
+
 </resources>

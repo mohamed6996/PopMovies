@@ -1,24 +1,19 @@
 package com.movies.popular.popmovies.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.movies.popular.popmovies.Constants;
-import com.movies.popular.popmovies.ListItemClickListener;
+import com.movies.popular.popmovies.interfaces.ListItemClickListener;
 import com.movies.popular.popmovies.R;
 import com.movies.popular.popmovies.model.TrailerList;
 import com.movies.popular.popmovies.model.TrailerModel;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 
 /**
  * Created by lenovo on 2/23/2018.
@@ -48,19 +43,22 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
 
     @Override
     public int getItemCount() {
-        return trailerList.getResults().size();
+        if (trailerList != null)
+            return trailerList.getResults().size();
+        else return 0;
     }
 
     class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView thumbnail;
-        TextView movieName, trailerType, trailerQuality;
+        TextView movieName;
+        //  , trailerType, trailerQuality;
 
         public TrailerViewHolder(View itemView) {
             super(itemView);
             thumbnail = itemView.findViewById(R.id.trailer_iv);
             movieName = itemView.findViewById(R.id.trailer_movie_name);
-            trailerType = itemView.findViewById(R.id.trailer_type);
-            trailerQuality = itemView.findViewById(R.id.trailer_quality);
+            //   trailerType = itemView.findViewById(R.id.trailer_type);
+            //   trailerQuality = itemView.findViewById(R.id.trailer_quality);
 
             itemView.setOnClickListener(this);
         }
@@ -68,8 +66,8 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
         void bind(int position) {
             TrailerModel model = trailerList.getResults().get(position);
             movieName.setText(model.getName());
-            trailerType.append(model.getSite());
-            trailerQuality.append(String.valueOf(model.getSize()) + "p");
+            //  trailerType.append(model.getSite());
+            //  trailerQuality.append(String.valueOf(model.getSize()) + "p");
             Picasso.with(context).load(Constants.THUMBNAIL_BASE_URL + model.getKey() + "/0.jpg").into(thumbnail);
         }
 

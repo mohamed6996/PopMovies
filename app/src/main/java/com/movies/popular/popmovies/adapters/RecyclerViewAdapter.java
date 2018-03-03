@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.movies.popular.popmovies.Constants;
-import com.movies.popular.popmovies.ListItemClickListener;
+import com.movies.popular.popmovies.interfaces.ListItemClickListener;
 import com.movies.popular.popmovies.model.MovieModel;
 import com.movies.popular.popmovies.R;
 import com.squareup.picasso.Picasso;
@@ -73,10 +73,30 @@ public class RecyclerViewAdapter extends PagedListAdapter<MovieModel, RecyclerVi
 
     @Override
     public int getItemViewType(int position) {
-        if (position % 3 == 0)
-            return R.layout.movie_item_2;
-        else
-            return R.layout.movie_item_1;
+        int column_count = context.getResources().getInteger(R.integer.grid_column_count);
+        switch (column_count) {
+            case 2:
+                if (position % 3 == 0)
+                    return R.layout.movie_item_2;
+                else
+                    return R.layout.movie_item_1;
+            case 3:
+                if (position % 4 == 0)
+                    return R.layout.movie_item_2;
+                else
+                    return R.layout.movie_item_1;
+            case 6:
+                if (position % 5 == 0)
+                    return R.layout.movie_item_2;
+                else
+                    return R.layout.movie_item_1;
+            default:
+                if (position % 3 == 0)
+                    return R.layout.movie_item_2;
+                else
+                    return R.layout.movie_item_1;
+        }
+
     }
 
     public static final DiffCallback<MovieModel> DIFF_CALLBACK = new DiffCallback<MovieModel>() {

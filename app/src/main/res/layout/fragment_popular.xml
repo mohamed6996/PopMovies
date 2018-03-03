@@ -4,12 +4,6 @@
     android:layout_height="match_parent"
     tools:context="com.movies.popular.popmovies.fragments.PopularFragment">
 
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/pop_rec_view"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:scrollbars="vertical"
-    android:scrollbarThumbVertical="@color/colorPrimary"
-    android:scrollbarSize="2dp"/>
+
 
 </FrameLayout>

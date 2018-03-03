@@ -5,6 +5,7 @@ import android.arch.paging.DataSource;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.database.Cursor;
 
 import com.movies.popular.popmovies.model.MovieModel;
 
@@ -17,16 +18,23 @@ import java.util.List;
 @Dao
 public interface MovieDao {
 
-    @Insert
-    void insert(MovieEntity movieEntity);
-
-    @Query("DELETE FROM favorites_table WHERE id = :id")
-    void delete(String id);
-
     @Query("SELECT * FROM favorites_table")
-    public abstract DataSource.Factory<Integer, MovieModel> getAllFavourites();
+    DataSource.Factory<Integer, MovieModel> getAllFavourites();
 
     @Query("SELECT id FROM favorites_table WHERE id = :id")
-    public String getFavouriteMovie(String id);
+    String getFavouriteMovie(String id);
+
+    @Insert
+    long insertFavoriteMovie(MovieEntity movieEntity);
+
+    @Query("DELETE FROM favorites_table WHERE id = :id")
+    int deleteFavoriteMovie(long id);
+
+//    @Query("DELETE FROM favorites_table WHERE id = :id")
+//    void delete(String id);
+
+//    @Insert
+//    void insert(MovieEntity movieEntity);
+
 
 }

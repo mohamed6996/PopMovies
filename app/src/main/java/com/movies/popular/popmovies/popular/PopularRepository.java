@@ -5,7 +5,7 @@ import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 import android.support.annotation.MainThread;
 import android.util.Log;
-import com.movies.popular.popmovies.AppsExecutor;
+import com.movies.popular.popmovies.utility.AppsExecutor;
 import com.movies.popular.popmovies.model.MovieModel;
 
 import android.arch.paging.PagedList.Config.Builder;

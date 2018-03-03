@@ -31,6 +31,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildTypes.each {
+        it.buildConfigField 'String', 'MOVIE_DB_API_KEY', MyMovieDBApiKey
+    }
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8

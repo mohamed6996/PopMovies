@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.movies.popular.popmovies;
+package com.movies.popular.popmovies.utility;
 
 
 import android.os.Handler;

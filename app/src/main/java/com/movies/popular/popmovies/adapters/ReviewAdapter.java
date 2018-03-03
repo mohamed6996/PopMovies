@@ -6,9 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.movies.popular.popmovies.ListItemClickListener;
 import com.movies.popular.popmovies.R;
-import com.movies.popular.popmovies.model.MovieModel;
 import com.movies.popular.popmovies.model.TrailerList;
 import com.movies.popular.popmovies.model.TrailerModel;
 
@@ -37,10 +35,12 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
 
     @Override
     public int getItemCount() {
-        return reviewList.getResults().size();
+        if (reviewList != null)
+            return reviewList.getResults().size();
+        else return 0;
     }
 
-    class ReviewViewHolder extends RecyclerView.ViewHolder  {
+    class ReviewViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
 
         public ReviewViewHolder(View itemView) {

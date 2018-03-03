@@ -1,63 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.movies.popular.popmovies.MainActivity">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:theme="@style/AppTheme.Toolbar"
-        />
+    <include layout="@layout/main_content" />
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab_Layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:tabGravity="fill"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/tab_selected_color"
-        app:tabTextColor="@color/tab_unselected_color" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tab_Layout" />
+</FrameLayout><!--<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--tools:context="com.movies.popular.popmovies.MainActivity">-->
 
-    <com.arlib.floatingsearchview.FloatingSearchView
-        app:floatingSearch_dimBackground="true"
-        app:floatingSearch_dismissOnOutsideTouch="true"
-        android:id="@+id/floating_search_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:floatingSearch_close_search_on_keyboard_dismiss="true"
-        app:floatingSearch_leftActionMode="noLeftAction"
-        app:floatingSearch_menu="@menu/search_menu"
-        app:floatingSearch_searchBarMarginLeft="4dp"
-        app:floatingSearch_searchBarMarginRight="4dp"
-        app:floatingSearch_searchBarMarginTop="4dp"
-        app:floatingSearch_searchHint="Search..."
-        app:floatingSearch_showSearchKey="true"
-        app:floatingSearch_suggestionsListAnimDuration="250"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+    <!--<android.support.v7.widget.Toolbar--><!--android:id="@+id/toolbar"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:background="@color/colorPrimary"--><!--app:layout_constraintEnd_toEndOf="parent"--><!--app:layout_constraintStart_toStartOf="parent"--><!--app:layout_constraintTop_toTopOf="parent"--><!--app:theme="@style/AppTheme.Toolbar"--><!--/>-->
 
-</android.support.constraint.ConstraintLayout>
+    <!--<android.support.design.widget.TabLayout--><!--android:id="@+id/tab_Layout"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:background="@color/colorPrimary"--><!--app:layout_constraintEnd_toEndOf="parent"--><!--app:layout_constraintStart_toStartOf="parent"--><!--app:layout_constraintTop_toBottomOf="@+id/toolbar"--><!--app:tabGravity="fill"--><!--app:tabMode="fixed"--><!--app:tabSelectedTextColor="@color/tab_selected_color"--><!--app:tabTextColor="@color/tab_unselected_color" />-->
+
+    <!--<android.support.v4.view.ViewPager--><!--android:id="@+id/view_pager"--><!--android:layout_width="0dp"--><!--android:layout_height="0dp"--><!--app:layout_constraintBottom_toBottomOf="parent"--><!--app:layout_constraintEnd_toEndOf="parent"--><!--app:layout_constraintStart_toStartOf="parent"--><!--app:layout_constraintTop_toBottomOf="@+id/tab_Layout" />-->
+
+    <!--<com.arlib.floatingsearchview.FloatingSearchView--><!--app:floatingSearch_dimBackground="true"--><!--app:floatingSearch_dismissOnOutsideTouch="true"--><!--android:id="@+id/floating_search_view"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--app:floatingSearch_close_search_on_keyboard_dismiss="true"--><!--app:floatingSearch_leftActionMode="noLeftAction"--><!--app:floatingSearch_menu="@menu/search_menu"--><!--app:floatingSearch_searchBarMarginLeft="4dp"--><!--app:floatingSearch_searchBarMarginRight="4dp"--><!--app:floatingSearch_searchBarMarginTop="4dp"--><!--app:floatingSearch_searchHint="Search..."--><!--app:floatingSearch_showSearchKey="true"--><!--app:floatingSearch_suggestionsListAnimDuration="250"--><!--app:layout_constraintBottom_toBottomOf="parent"--><!--app:layout_constraintEnd_toEndOf="parent"--><!--app:layout_constraintStart_toStartOf="parent"--><!--app:layout_constraintTop_toTopOf="parent"--><!--/>-->
+
+    <!--</android.support.constraint.ConstraintLayout>-->
